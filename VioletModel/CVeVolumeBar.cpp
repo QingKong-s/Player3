@@ -56,6 +56,7 @@ LRESULT CVeVolumeBar::OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		m_TrackBar.SetRange(0, 200);
 		m_TrackBar.SetTrackPos(100);
 		m_TrackBar.SetTrackSize(CyVolTrack);
+        m_TrackBar.SetGenEventWhenDragging(TRUE);
 	}
 	break;
 	case WM_DESTROY:

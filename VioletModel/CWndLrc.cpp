@@ -190,10 +190,10 @@ LRESULT CWndLrc::OnElemEvent(Dui::CElem* pElem, UINT uMsg, WPARAM wParam, LPARAM
 		App->GetPlayer().PlayOrPause();
 	else if (pElem == &m_BTNext)
 		App->GetPlayer().Next();
-	else if (pElem == &m_BTLock)
-		;
-	else if (pElem == &m_BTClose)
-		;
+	//else if (pElem == &m_BTLock)
+	//	;
+	//else if (pElem == &m_BTClose)
+	//	;
 	return __super::OnElemEvent(pElem, uMsg, wParam, lParam);
 }
 

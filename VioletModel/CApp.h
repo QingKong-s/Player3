@@ -105,7 +105,7 @@ CyStdEdit = 36,
 CxyListCover = 40,
 CyPlayListItem = 46,
 CyVolTB = 16,
-CyVolTrack = 10,
+CyVolTrack = 8,
 CxVolBar = 220,
 CyVolBar = 32,
 CxVolLabel = 30,
@@ -175,6 +175,7 @@ enum
 	ELEN_PAGE_CHANGE,		// [CTabPanel]边栏被单击时(NMLTITEMINDEX*)
 	ELEN_MINICOVER_CLICK,	// [CMiniCover]封面被单击时
 	ELEN_DTLRC_GET_TIME,	// [CVeDtLrc]取当前播放器时间(NM_DTL_GET_TIME*)
+    ELEN_PLAYPAGE_LBTN_UP,	// [CPagePlaying]左键弹起
 };
 
 class CWndMain;
