@@ -120,6 +120,7 @@ BOOL CWndMain::OnCreate(HWND hWnd, CREATESTRUCT* pcs)
     m_TBProgress.SetRange(0, 100);
     m_TBProgress.SetTrackPos(50);
     m_TBProgress.SetTrackSize(CyProgressTrack);
+    m_TBProgress.SetThinTrack(TRUE);
     // 按钮 上一曲
     m_BTPrev.Create(nullptr, Dui::DES_VISIBLE, 0,
         0, 0, CxyCircleButton, CxyCircleButton, nullptr, this);
@@ -448,6 +449,20 @@ LRESULT CWndMain::OnElemEvent(Dui::CElem* pElem, UINT uMsg, WPARAM wParam, LPARA
         WakeRenderThread();
     }
     return 0;
+    case ELEN_PLAYPAGE_LBTN_UP:
+    {
+        ECK_DUILOCKWND;
+        if (m_bPPAnActive)
+        {
+            const auto dwPos = GetMessagePos();
+            POINT pt;
+            POINTSTOPOINT(pt, dwPos);
+
+            PpaPrepare();
+            WakeRenderThread();
+        }
+    }
+    return 0;
 
     case Dui::EE_COMMAND:
     {
@@ -466,7 +481,7 @@ LRESULT CWndMain::OnElemEvent(Dui::CElem* pElem, UINT uMsg, WPARAM wParam, LPARA
         else if (pElem == &m_BTVol)
         {
             const auto x = GetClientWidthLog() - CxVolBar - CxVolBarPadding;
-            const auto y = m_BTVol.GetRectInClientF().top - CyVolBar;
+            const auto y = m_BTVol.GetOffsetInClientF().y - CyVolBar;
             m_VolBar.SetPos(x, y);
             m_VolBar.ShowAnimation();
         }
@@ -684,7 +699,7 @@ void CWndMain::RePosButtonProgBar()
     m_BTNext.SetPos(x, y);
     // 移动进度条
     const auto yPlayPanel = cyClient - CyPlayPanel;
-    const auto dTrackSpacing = m_TBProgress.GetTrackSpacing();
+    const auto dTrackSpacing = m_TBProgress.GetTrackCapSpacing();
     const auto oxIndent = (float)CxPaddingProgBarWithPlayPage * m_PlayPageAn.K;
     m_TBProgress.SetRect({
         -dTrackSpacing + oxIndent,

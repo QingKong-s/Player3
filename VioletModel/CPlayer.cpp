@@ -88,6 +88,8 @@ PlayErr CPlayer::PlayWorker(CPlayList::ITEM& e)
 
 	auto rsLrcPath{ e.rsFile };
 	rsLrcPath.PazRenameExtension(EckStrAndLen(L".lrc"));
+	m_pLrc->MgAddDividerString(L" / "sv, {});
+	m_pLrc->MgAddDividerString(L" 「"sv, L"」"sv);
 	m_pLrc->MgSetDuration((float)m_lfTotalTime);
 	if (NT_SUCCESS(m_pLrc->LoadTextFile(rsLrcPath.Data())) &&
 		!m_pLrc->IsTextEmpty())

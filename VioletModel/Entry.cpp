@@ -21,7 +21,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	_In_ PWSTR pszCmdLine, _In_ int nCmdShow)
 {
 	_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(1003);
+	//_CrtSetBreakAlloc(3360);
 
 	if (const auto hr = CoInitialize(nullptr); FAILED(hr))
 	{
@@ -56,7 +56,7 @@ Msg = %s)",
 	App->SetMainWindow(pWnd);
 	const auto hMon = eck::GetOwnerMonitor(nullptr);
 	const auto iDpi = eck::GetMonitorDpi(hMon);
-	auto size = SIZE{ 910,620 };
+	SIZE size{ 940,620 };
 	eck::DpiScale(size, iDpi);
 	const auto pt = eck::CalcCenterWndPos(nullptr, size.cx, size.cy, FALSE);
 	pWnd->SetUserDpi(iDpi);

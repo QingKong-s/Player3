@@ -220,6 +220,15 @@ LRESULT CPagePlaying::OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		InvalidateRect();
 	}
 	break;
+	case WM_LBUTTONUP:
+	{
+		if (((CWndMain*)GetWnd())->TlIsValid())
+		{
+			Dui::DUINMHDR nm{ ELEN_PLAYPAGE_LBTN_UP };
+            GenElemNotify(&nm);
+		}
+	}
+	break;
 	case WM_CREATE:
 	{
 		App->GetPlayer().GetSignal().Connect(this, &CPagePlaying::OnPlayEvent);
