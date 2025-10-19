@@ -116,7 +116,7 @@ BOOL CWndMain::OnCreate(HWND hWnd, CREATESTRUCT* pcs)
     m_PagePlaying.SetLabelTextFormat(pTfPP.Get());
     // 进度条
     m_TBProgress.Create(nullptr, Dui::DES_VISIBLE, 0,
-        0, 0, 0, 0, nullptr, this);
+        0, 0, CxProgress, CyProgress, nullptr, this);
     m_TBProgress.SetRange(0, 100);
     m_TBProgress.SetTrackPos(50);
     m_TBProgress.SetTrackSize(CyProgressTrack);
@@ -344,8 +344,7 @@ LRESULT CWndMain::OnMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 CyPageTitle + DTopPageTitle + CxPageIntPadding,
                 cxClient,
                 cyClient - CxTabToPagePadding });
-        if (!m_bPPAnActive)
-            RePosButtonProgBar();
+            RePosPalyPanelControl();
         OnCoverUpdate();
         return lResult;
     }
@@ -437,7 +436,7 @@ LRESULT CWndMain::OnElemEvent(Dui::CElem* pElem, UINT uMsg, WPARAM wParam, LPARA
         {
             const auto f = ((Dui::CTrackBar*)pElem)->GetTrackPos();
             App->GetPlayer().GetBass().SetVolume(f / 100.f);
-            m_VolBar.OnVolChanged(f);
+            m_VolBar.OnVolumeChanged(f);
         }
     }
     return 0;
@@ -534,8 +533,6 @@ void CWndMain::TlTick(int iMs)
         PpaEnd();
         return;
     }
-    // 移动底部的按钮
-    RePosButtonProgBar();
     // 页面动画更新
     const auto kOverlay = std::clamp(m_PlayPageAn.Time / DurOverlayOpacity, 0.f, 1.f);
     m_pCompPlayPageAn->Opacity = (m_bPPAnReverse ? (1.f - kOverlay) : kOverlay);
@@ -595,7 +592,7 @@ void CWndMain::TlTick(int iMs)
     m_NormalPageContainer.CompReCalcCompositedRect();
     if (!bStillRunning)
         PpaEnd();
-    Redraw();
+    Redraw(FALSE);
 }
 
 void CWndMain::LwShow(BOOL bShow)
@@ -669,43 +666,31 @@ void CWndMain::PpaEnd()
         m_PagePlaying.SetVisible(FALSE);
 }
 
-void CWndMain::RePosButtonProgBar()
+void CWndMain::RePosPalyPanelControl()
 {
-    constexpr float XCenterButtonLeftLimit = DLeftMiniCover + CxyMiniCover +
-        CxPaddingPlayPanelText + CxMaxTitleAndArtist + CxPaddingPlayPanelText +
-        CxMaxTime + CxPaddingPlayPanelText;
     const auto cxClient = GetClientWidthLog();
     const auto cyClient = GetClientHeightLog();
+    float x, y;
     // 移动右侧按钮
-    const auto y = cyClient - CyPlayPanel + (CyPlayPanel - CxyCircleButton) / 2;
-    float x = cxClient - CxyCircleButton - CxPaddingCircleButtonRightEdge;
-    x += (x - (cxClient - CxPaddingCtrlBtnWithPlayPage)) * m_PlayPageAn.K;
-
+    x = cxClient - DRightPaddingSmallCircleBtn - CxyCircleButton;
+    y = cyClient - CyPlayPanel + (CyPlayPanel - CxyCircleButton) / 2;
     m_BTVol.SetPos(x, y);
     x -= (CxyCircleButton + CxPaddingCircleButton);
     m_BTLrc.SetPos(x, y);
     x -= (CxyCircleButton + CxPaddingCircleButton);
     m_BTAutoNext.SetPos(x, y);
     // 移动中间按钮
-    x = XCenterButtonLeftLimit + ((x - XCenterButtonLeftLimit) -
-        (CxyCircleButton * 2 + CxyCircleButtonBig + CxPaddingCircleButton * 2)) / 2;
-    const auto xCenter = (cxClient - (CxyCircleButton * 2 + CxyCircleButtonBig +
+    x = (cxClient - (CxyCircleButton * 2 + CxyCircleButtonBig +
         CxPaddingCircleButton * 2)) / 2;
-    x += (xCenter - x) * m_PlayPageAn.K;
+    y = cyClient - CyPlayPanel + DTopCtrlBtn;
+
     m_BTPrev.SetPos(x, y);
     x += (CxyCircleButton + CxPaddingCircleButton);
-    m_BTPlay.SetPos(x, cyClient - CyPlayPanel + (CyPlayPanel - CxyCircleButtonBig) / 2);
+    m_BTPlay.SetPos(x, y + (  CxyCircleButton- CxyCircleButtonBig) / 2);
     x += (CxyCircleButtonBig + CxPaddingCircleButton);
     m_BTNext.SetPos(x, y);
     // 移动进度条
-    const auto yPlayPanel = cyClient - CyPlayPanel;
-    const auto dTrackSpacing = m_TBProgress.GetTrackCapSpacing();
-    const auto oxIndent = (float)CxPaddingProgBarWithPlayPage * m_PlayPageAn.K;
-    m_TBProgress.SetRect({
-        -dTrackSpacing + oxIndent,
-        yPlayPanel - CyProgress / 2,
-        cxClient + dTrackSpacing - oxIndent,
-        yPlayPanel + CyProgress / 2 });
+    m_TBProgress.SetPos((cxClient - CxProgress) / 2.f, cyClient - CyProgress - 6.f);
 }
 
 void CWndMain::OnCoverUpdate()

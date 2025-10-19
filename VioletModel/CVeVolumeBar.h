@@ -2,18 +2,18 @@
 class CVeVolumeBar : public Dui::CElem
 {
 private:
-	Dui::CLabel m_LAVol{};
-	Dui::CTrackBar m_TrackBar{};
+    Dui::CLabel m_LAVol{};
+    Dui::CTrackBar m_TrackBar{};
 
-	ID2D1SolidColorBrush* m_pBrush{};
-	Dui::CCompositorPageAn* m_pPageAn{};
-	eck::CEasingCurve* m_pecShowing{};
+    ID2D1SolidColorBrush* m_pBrush{};
+    Dui::CCompositorPageAn m_PageAn{};
+    eck::CEasingCurve m_ecShowing{};
 
-	BOOL m_bShow{};
+    BOOL m_bShow{};
 public:
-	LRESULT OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+    LRESULT OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 
-	void ShowAnimation();
+    void ShowAnimation();
 
-	void OnVolChanged(float fVol);
+    void OnVolumeChanged(float fVol);
 };
