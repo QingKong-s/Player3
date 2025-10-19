@@ -11,7 +11,6 @@ private:
 	Dui::CLabel m_LATitle{};
 	Dui::CLabel m_LAArtist{};
 	Dui::CLabel m_LATime{};
-	Dui::CLabel m_LAWatermark{};
 
 	void OnPlayEvent(const PLAY_EVT_PARAM& e);
 public:

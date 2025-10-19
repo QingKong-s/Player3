@@ -111,7 +111,7 @@ private:
     void PpaPrepare();
     void PpaEnd();
 
-    void RePosButtonProgBar();
+    void RePosPalyPanelControl();
 
     void OnCoverUpdate();
 

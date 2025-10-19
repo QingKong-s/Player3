@@ -114,6 +114,7 @@ void CPagePlaying::OnColorSchemeChanged()
 
 	m_LATitle.SetColor(crText);
 	m_LATitle.UpdateFadeColor();
+    crText.a *= 0.7f;
 	m_LAAlbum.SetColor(crText);
 	m_LAAlbum.UpdateFadeColor();
 	m_LAArtist.SetColor(crText);

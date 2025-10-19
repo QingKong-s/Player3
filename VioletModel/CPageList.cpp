@@ -477,13 +477,13 @@ LRESULT CPageList::OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
             pTextFormat->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
 
             m_BTAddFile.Create(L"添加文件", Dui::DES_VISIBLE, 0,
-                0, 0, 100, CyStdEdit, this);
+                0, 0, CxListPageButton, CyStdEdit, this);
             m_BTAddFile.SetTextFormat(pTextFormat.Get());
             m_BTAddFile.SetBitmap(((CWndMain*)GetWnd())->RealizeImage(GImg::Add));
             m_LytTopBar.Add(&m_BTAddFile, {}, eck::LF_FIX);
 
             m_BTLocate.Create(L"定位当前", Dui::DES_VISIBLE, 0,
-                0, 0, 100, CyStdEdit, this);
+                0, 0, CxListPageButton, CyStdEdit, this);
             m_BTLocate.SetTextFormat(pTextFormat.Get());
             m_BTLocate.SetBitmap(((CWndMain*)GetWnd())->RealizeImage(GImg::Locate));
             m_LytTopBar.Add(&m_BTLocate, { .cxLeftWidth = (int)CxPageIntPadding }, eck::LF_FIX);
