@@ -420,7 +420,7 @@ LRESULT CPageList::OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
                 const auto pList = PlCurrent();
                 if (!pList)
                     break;
-                PlSearchEditContent(pList);
+                m_GLList.SetItemCount(PlSearchEditContent(pList));
                 m_GLList.InvalidateCache();
                 m_GLList.ReCalc();
                 m_GLList.InvalidateRect();
