@@ -31,7 +31,7 @@ LRESULT CVeVolumeBar::OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
                 const auto p = (CVeVolumeBar*)lParam;
                 p->m_PageAn.Opacity = fCurrValue;
                 p->m_PageAn.Dy = (1.f - fCurrValue) * (float)DVolAn;
-                const D2D1_RECT_F rcOld = p->GetWholeRectInClient();
+                  const D2D1_RECT_F rcOld = p->GetWholeRectInClient();
                 p->CompReCalcCompositedRect();
                 p->InvalidateRect(FALSE);
                 p->GetWnd()->IrUnion(rcOld);
