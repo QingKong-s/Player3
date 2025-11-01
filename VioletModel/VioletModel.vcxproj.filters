@@ -138,6 +138,15 @@
     <ClInclude Include="CLyricRendererBase.h">
       <Filter>UI\其他</Filter>
     </ClInclude>
+    <ClInclude Include="CDtLyricRendererBase.h">
+      <Filter>UI\其他</Filter>
+    </ClInclude>
+    <ClInclude Include="LrDef.h">
+      <Filter>UI\其他</Filter>
+    </ClInclude>
+    <ClInclude Include="CDtLrGeometryRealization.h">
+      <Filter>UI\其他</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyEck.cpp">
@@ -228,6 +237,9 @@
       <Filter>UI\其他</Filter>
     </ClCompile>
     <ClCompile Include="CLrGeometryRealization.cpp">
+      <Filter>UI\其他</Filter>
+    </ClCompile>
+    <ClCompile Include="CDtLrGeometryRealization.cpp">
       <Filter>UI\其他</Filter>
     </ClCompile>
   </ItemGroup>

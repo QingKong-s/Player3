@@ -99,7 +99,7 @@ BOOL CWndMain::OnCreate(HWND hWnd, CREATESTRUCT* pcs)
     m_PageOptions.SetTextFormat(pTfLeft.Get());
     // 底部播放控制栏
     m_PlayPanel.Create(nullptr, Dui::DES_VISIBLE/* | Dui::DES_BLURBKG*/, 0,
-        0, 0, 0, 0, nullptr, this);
+        0, 0, 0, 0, pNormalParent, this);
     m_PlayPanel.SetTextFormat(pTfLeft.Get());
     // 页 播放
     ComPtr<IDWriteTextFormat> pTfPP;
@@ -471,6 +471,8 @@ LRESULT CWndMain::OnElemEvent(Dui::CElem* pElem, UINT uMsg, WPARAM wParam, LPARA
             App->GetPlayer().Prev();
         else if (pElem == &m_BTNext)
             App->GetPlayer().Next();
+        else if (pElem == &m_BTLrc)
+            LwShow(!LwIsShowing());
         else if (pElem == &m_BTAutoNext)
         {
             const auto r = App->GetPlayer().NextAutoNextMode();
@@ -615,6 +617,11 @@ void CWndMain::LwShow(BOOL bShow)
     else
         if (m_WndLrc.IsValid())
             m_WndLrc.Show(SW_HIDE);
+}
+
+BOOL CWndMain::LwIsShowing()
+{
+    return m_WndLrc.IsValid() && m_WndLrc.IsVisible();
 }
 
 void CWndMain::UpdateButtonImageSize()

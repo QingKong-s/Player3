@@ -200,6 +200,8 @@
     <ClInclude Include="CApp.h" />
     <ClInclude Include="CBass.h" />
     <ClInclude Include="CCompPlayPageAn.h" />
+    <ClInclude Include="CDtLrGeometryRealization.h" />
+    <ClInclude Include="CDtLyricRendererBase.h" />
     <ClInclude Include="CLyricRendererBase.h" />
     <ClInclude Include="CLrGeometryRealization.h" />
     <ClInclude Include="CMediaLib.h" />
@@ -224,6 +226,7 @@
     <ClInclude Include="CVeCover.h" />
     <ClInclude Include="CVeLrc.h" />
     <ClInclude Include="CWndMain.h" />
+    <ClInclude Include="LrDef.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -232,6 +235,7 @@
   <ItemGroup>
     <ClCompile Include="CApp.cpp" />
     <ClCompile Include="CBass.cpp" />
+    <ClCompile Include="CDtLrGeometryRealization.cpp" />
     <ClCompile Include="CLrGeometryRealization.cpp" />
     <ClCompile Include="CMediaLib.cpp" />
     <ClCompile Include="CPlayListFile.cpp" />
