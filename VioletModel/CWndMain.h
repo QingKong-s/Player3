@@ -155,4 +155,5 @@ public:
     EckInlineNdCe auto GetVioletTheme() const noexcept { return m_pVioletTheme; }
 
     void LwShow(BOOL bShow);
+    BOOL LwIsShowing();
 };

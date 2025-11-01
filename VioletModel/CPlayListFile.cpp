@@ -161,7 +161,7 @@ void CPlayListFileReader::ForBookmark(const FBookmarkProcessor& fnProcessor)
     if (m_pHeader1)
     {
 #ifdef _DEBUG
-        r.SetPtr(m_pHeader1, m_File.GetFile().GetSize32());
+        r.SetPtr(m_pHeader1, (size_t)m_File.GetSize());
 #else
         r.SetPtr(m_pHeader1, 0);
 #endif
@@ -180,7 +180,7 @@ void CPlayListFileReader::ForBookmark(const FBookmarkProcessor& fnProcessor)
     else if (m_pHeader0)
     {
 #ifdef _DEBUG
-        r.SetPtr(m_pHeader0, m_File.GetFile().GetSize32());
+        r.SetPtr(m_pHeader0, (size_t)m_File.GetSize());
 #else
         r.SetPtr(m_pHeader0, 0);
 #endif
@@ -284,7 +284,7 @@ void CPlayListFileWriter::AddFlat(
 
 void CPlayListFileWriter::BeginBookMark()
 {
-    m_Header.ocbBookMark = m_File.PosGet();
+    m_Header.ocbBookMark = (UINT)m_File.PosGet();
     m_File += sizeof(BOOKMARKHEADER);
 }
 

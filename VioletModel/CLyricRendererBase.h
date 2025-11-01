@@ -1,17 +1,5 @@
-#pragma once
-struct LRD_INIT
-{
-    ID2D1DeviceContext* pD2DContext{};
-    ID3D11DeviceContext* pD3DContext{};
-};
-
-struct LRD_TEXT_METRICS
-{
-    float cxMain{};
-    float cyMain{};
-    float cxTrans{};
-    float cyTrans{};
-};
+ï»¿#pragma once
+#include "LrDef.h"
 
 enum : BYTE
 {
@@ -27,16 +15,16 @@ struct LRD_DRAW
 
     BYTE uFlags;			// LRIF_*
     eck::Align eAlignH;
-    Dui::State eState;      // ±³¾°×´Ì¬£¬ÉèÎªState::None±íÊ¾²»»æÖÆ±³¾°
+    Dui::State eState;      // èƒŒæ™¯çŠ¶æ€ï¼Œè®¾ä¸ºState::Noneè¡¨ç¤ºä¸ç»˜åˆ¶èƒŒæ™¯
 
     float x;
     float y;
     float cx;
     float cy;
 
-    float fScale;           // µ±Ç°Ëõ·Å£¬¶ÔÓÚ³£¹æÇé¿ö±ØĞëÉèÎª1
-    float kAnSelBkg;		// 0~1£¬Ö¸¶¨LRIF_AN_SEL_BKGÊ±ÓĞĞ§
-    float kScrollExpand;	// 0~1£¬Ö¸¶¨LRIF_SCROLL_EXPANDÊ±ÓĞĞ§
+    float fScale;           // å½“å‰ç¼©æ”¾ï¼Œå¯¹äºå¸¸è§„æƒ…å†µå¿…é¡»è®¾ä¸º1
+    float kAnSelBkg;		// 0~1ï¼ŒæŒ‡å®šLRIF_AN_SEL_BKGæ—¶æœ‰æ•ˆ
+    float kScrollExpand;	// 0~1ï¼ŒæŒ‡å®šLRIF_SCROLL_EXPANDæ—¶æœ‰æ•ˆ
 };
 
 struct LRD_EMTRY_TEXT
@@ -63,11 +51,11 @@ protected:
 
     float m_cxView{};
     float m_cyView{};
-    float m_fMaxScale{ 1.1f };      // µ±Ç°ÏîÄ¿µÄ×î´óËõ·Å±ÈÀı
-    float m_cxyLineMargin{ 14.f };  // ÏîÄ¿ÎÄ±¾Óë±ß¿ò¼ä¾à
-    float m_dMainToTrans{ 5.f };    // ÕıÎÄÓë·­Òë¼ä¾à
+    float m_fMaxScale{ 1.1f };      // å½“å‰é¡¹ç›®çš„æœ€å¤§ç¼©æ”¾æ¯”ä¾‹
+    float m_cxyLineMargin{ 14.f };  // é¡¹ç›®æ–‡æœ¬ä¸è¾¹æ¡†é—´è·
+    float m_dMainToTrans{ 5.f };    // æ­£æ–‡ä¸ç¿»è¯‘é—´è·
 
-    BOOLEAN m_bTopBtmFade{};		// Ö¸Ê¾ÊÇ·ñÆôÓÃ¶¥²¿ºÍµ×²¿½¥±ä
+    BOOLEAN m_bTopBtmFade{};		// æŒ‡ç¤ºæ˜¯å¦å¯ç”¨é¡¶éƒ¨å’Œåº•éƒ¨æ¸å˜
 public:
     virtual ~CLyricRendererBase() = default;
 
