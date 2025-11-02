@@ -7,7 +7,7 @@ BOOL CPlayListFileReader::Open(PCWSTR pszFile)
 {
     if (!NT_SUCCESS(m_File.Create(pszFile, FILE_OPEN, FILE_GENERIC_READ)))
         return FALSE;
-    if (!m_Map.Create(m_File.GetHandle()))
+    if (!m_Map.Create(m_File.Get()))
         return FALSE;
     const auto p = m_Map.Map();
 
@@ -301,7 +301,7 @@ BOOL CPlayListFileWriter::End()
     auto dwCurr = m_File.PosGet();
     m_File.PosToBegin() << m_Header;
     m_File.PosSet(dwCurr).End();
-    m_File.Close();
+    m_File.Clear();
     m_Header = { {'V','L','P','L'},VLLFVER_0 };
     return 0;
 }
