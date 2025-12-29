@@ -547,16 +547,11 @@ HRESULT CVeLrc::LrcSetCurrentLine(int idxCurr)
 {
     if (idxCurr < 0)
         return E_BOUNDS;
+    ECK_DUILOCK;
     if (m_idxCurr == idxCurr)
         return S_FALSE;
-#ifdef _DEBUG
     if (idxCurr >= (int)m_vItem.size())
-    {
-        EckDbgPrintFmt(ECK_FUNCTIONW L"\n\t索引越界：%d", idxCurr);
-        EckDbgBreak();
-    }
-#endif
-    ECK_DUILOCK;
+        return E_BOUNDS;
     const int idxPrev = m_idxCurr;
     m_idxCurr = idxCurr;
     if (MiIsManualScroll())

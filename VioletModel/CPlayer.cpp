@@ -57,6 +57,7 @@ PlayErr CPlayer::PlayWorker(CPlayList::ITEM& e)
 	Tag::SIMPLE_OPT Opt{};
 	Opt.svArtistDiv = {};
 	Opt.svCommDiv = {};
+	Opt.uFlags = Tag::SMOF_MOVE;
 	VltGetMusicInfo(e.rsFile.Data(), m_MusicInfo, Opt);
 	const auto pPic = m_MusicInfo.GetMainCover();
 	SafeRelease(m_pBmpCover);

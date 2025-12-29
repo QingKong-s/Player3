@@ -33,6 +33,7 @@ BOOL CWndMain::OnCreate(HWND hWnd, CREATESTRUCT* pcs)
 {
     BbrDelete();
 
+    StRegisterAutoTheme(m_pVioletTheme);
     StSwitchStdThemeMode(ShouldAppsUseDarkMode());
     App->SetDarkMode(ShouldAppsUseDarkMode());
 
@@ -45,8 +46,6 @@ BOOL CWndMain::OnCreate(HWND hWnd, CREATESTRUCT* pcs)
     m_pCompNormalPageAn->InitAsScaleBlur();
     m_pCompNormalPageAn->InitAsScaleOpacity();
     GetDeviceContext()->CreateSolidColorBrush({}, &m_pBrush);
-
-    m_pVioletTheme->Init(GetDeviceContext(), GetStdTheme());
 
     RegisterTimeLine(this);
 
@@ -512,6 +511,7 @@ ID2D1Bitmap1* CWndMain::RealizeImage(GImg n)
 
 void CWndMain::TlTick(int iMs)
 {
+    Redraw(FALSE);
     constexpr float MinDistance = 0.4f;
 
     constexpr float MaxPPAnDuration = 700.f;
@@ -532,6 +532,7 @@ void CWndMain::TlTick(int iMs)
     };
     if (!(m_bPPAnActive = m_PlayPageAn.Tick((float)iMs, MaxPPAnDuration)))
     {
+        Redraw(FALSE);
         PpaEnd();
         return;
     }

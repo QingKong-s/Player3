@@ -110,7 +110,7 @@ LRESULT CWndLrc::OnMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		RegisterTimeLine(this);
 
 		m_pVioletTheme = new CVioletTheme{};
-		m_pVioletTheme->Init(GetDeviceContext(), GetStdTheme());
+		StRegisterAutoTheme(m_pVioletTheme);
 
 		constexpr MARGINS Mar{ .cxRightWidth = (int)CxyLrcPadding };
 		m_BTPrev.Create(nullptr, Dui::DES_VISIBLE, 0,

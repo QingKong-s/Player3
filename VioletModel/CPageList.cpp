@@ -47,6 +47,7 @@ eck::CoroTask<void> CPageList::PlMdTskLoad(TSKPARAM_LOAD_META_DATA&& Param_)
     co_await eck::CoroResumeBackground();
     Tag::SIMPLE_OPT Opt{};
     Opt.svArtistDiv = Opt.svCommDiv = {};
+    Opt.uFlags = Tag::SMOF_MOVE;
     EckCounter(Param.vItem.size(), i)
     {
         const auto idxFlat = Param.vItem[i];

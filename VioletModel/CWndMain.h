@@ -149,7 +149,7 @@ public:
     ID2D1Bitmap1* RealizeImage(GImg n);
 
     void TlTick(int iMs) override;
-    BOOL TlIsValid() override { return m_bPPAnActive; }
+    BOOL TlIsValid() override { return 1 || m_bPPAnActive; }
 
     EckInlineNdCe auto ThreadCtx() const noexcept { return m_ptcUiThread; }
     EckInlineNdCe auto GetVioletTheme() const noexcept { return m_pVioletTheme; }

@@ -38,10 +38,10 @@ BOOL CPlayListFileReader::Open(PCWSTR pszFile)
 
 void CPlayListFileReader::Load(CPlayList* pList)
 {
-    eck::CMemReader r{ nullptr };
+    eck::CMemReader r{};
     if (m_pHeader2)
     {
-        r.SetPtr(m_pHeader2, (size_t)m_File.GetSize());
+        r.SetData(m_pHeader2, (size_t)m_File.GetSize());
         r += sizeof(LISTFILEHEADER_2);
         pList->ImReserveIncrement(m_pHeader2->cItem);
 
@@ -69,7 +69,7 @@ void CPlayListFileReader::Load(CPlayList* pList)
     }
     else if (m_pHeader1)
     {
-        r.SetPtr(m_pHeader1, (size_t)m_File.GetSize());
+        r.SetData(m_pHeader1, (size_t)m_File.GetSize());
 
         r += sizeof(LISTFILEHEADER_1);
         r += eck::Cch2CbW(m_pHeader1->cchCreator);
@@ -101,7 +101,7 @@ void CPlayListFileReader::Load(CPlayList* pList)
     }
     else if (m_pHeader0)
     {
-        r.SetPtr(m_pHeader0, (size_t)m_File.GetSize());
+        r.SetData(m_pHeader0, (size_t)m_File.GetSize());
 
         r += sizeof(LISTFILEHEADER_0);
         pList->ImReserveIncrement(m_pHeader0->iCount);
@@ -156,15 +156,12 @@ int CPlayListFileReader::GetItemCount()
 
 void CPlayListFileReader::ForBookmark(const FBookmarkProcessor& fnProcessor)
 {
-    eck::CMemReader r{ nullptr };
+    eck::CMemReader r{};
     PCWSTR pszName;
     if (m_pHeader1)
     {
-#ifdef _DEBUG
-        r.SetPtr(m_pHeader1, (size_t)m_File.GetSize());
-#else
-        r.SetPtr(m_pHeader1, 0);
-#endif
+        r.SetData(m_pHeader1, (size_t)m_File.GetSize());
+
         r += m_pHeader1->ocbBookMark;
         const BOOKMARKHEADER* pHeader;
         const BOOKMARKITEM* pItem;
@@ -172,18 +169,15 @@ void CPlayListFileReader::ForBookmark(const FBookmarkProcessor& fnProcessor)
         EckCounter(pHeader->cBookmarks, i)
         {
             r.SkipPointer(pItem);
-            pszName = (PCWSTR)r.m_pMem;
+            pszName = (PCWSTR)r.Data();
             r += ((pItem->cchName + 1) * sizeof(WCHAR));
             fnProcessor(pItem, pszName);
         }
     }
     else if (m_pHeader0)
     {
-#ifdef _DEBUG
-        r.SetPtr(m_pHeader0, (size_t)m_File.GetSize());
-#else
-        r.SetPtr(m_pHeader0, 0);
-#endif
+        r.SetData(m_pHeader0, (size_t)m_File.GetSize());
+
         r += sizeof(LISTFILEHEADER_0);
         BOOKMARKITEM Item;
         const LISTFILEITEM_0* pItem;
@@ -191,14 +185,14 @@ void CPlayListFileReader::ForBookmark(const FBookmarkProcessor& fnProcessor)
         {
             r.SkipPointer(pItem);
 
-            r += ((wcslen((PCWSTR)r.m_pMem) + 1) * sizeof(WCHAR));
-            r += ((wcslen((PCWSTR)r.m_pMem) + 1) * sizeof(WCHAR));
+            r += ((wcslen((PCWSTR)r.Data()) + 1) * sizeof(WCHAR));
+            r += ((wcslen((PCWSTR)r.Data()) + 1) * sizeof(WCHAR));
 
             if (eck::IsBitSet(pItem->uFlags, QKLIF_BOOKMARK))
             {
                 r >> Item.cr;
 
-                pszName = (PCWSTR)r.m_pMem;
+                pszName = (PCWSTR)r.Data();
                 Item.cchName = (int)wcslen(pszName);
                 r += ((Item.cchName + 1) * sizeof(WCHAR));
 
@@ -206,13 +200,13 @@ void CPlayListFileReader::ForBookmark(const FBookmarkProcessor& fnProcessor)
 
                 fnProcessor(&Item, pszName);
 
-                r += ((wcslen((PCWSTR)r.m_pMem) + 1) * sizeof(WCHAR));
+                r += ((wcslen((PCWSTR)r.Data()) + 1) * sizeof(WCHAR));
             }
             else
                 r += sizeof(COLORREF) + sizeof(WCHAR) * 2;
 
             if (m_pHeader0->dwVer == QKLFVER_2)
-                r += ((wcslen((PCWSTR)r.m_pMem) + 1) * sizeof(WCHAR));
+                r += ((wcslen((PCWSTR)r.Data()) + 1) * sizeof(WCHAR));
         }
     }
     else
