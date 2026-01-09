@@ -15,6 +15,7 @@ private:
 	MusicType m_eMusicType = MusicType::Invalid;
 	DWORD m_hStream = BassNull;
 	float m_fDefSpeed = 0.f;
+    float m_fVolume = 1.f;
 public:
 	static int GetError(PCWSTR* ppszErr = nullptr);
 
@@ -66,8 +67,9 @@ public:
 		return BASS_ChannelStop(m_hStream);
 	}
 
-	EckInline BOOL SetVolume(float fVolume) const
+	EckInline BOOL SetVolume(float fVolume)
 	{
+        m_fVolume = fVolume;
 		return SetAttr(BASS_ATTRIB_VOL, fVolume);
 	}
 

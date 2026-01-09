@@ -2,7 +2,7 @@
 #define _CRTDBG_MAP_ALLOC	1
 #define ECK_OPT_NO_YYJSON	1
 #define ECK_OPT_NO_PUGIXML	1
-#define VIOLET_WINRT		1
+#define VIOLET_WINRT		0
 
 #include "eck\PchInc.h"
 #include "eck\SystemHelper.h"
@@ -28,6 +28,7 @@
 #include "eck\CoroutineHelper.h"
 #include "eck\ShellHelper.h"
 #include "eck\DwLayoutPath.h"
+#include "eck\CTrivialBuffer.h"
 
 #if VIOLET_WINRT
 //#include "eck\WinRtDCompInterop.h"

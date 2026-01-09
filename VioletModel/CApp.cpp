@@ -125,7 +125,7 @@ IWICBitmap* CApp::InvertSkin(IWICBitmap* pBmp)
 	pBmp->GetSize(&cx, &cy);
 	eck::g_pWicFactory->CreateBitmap(cx, cy, eck::DefWicPixelFormat,
 		WICBitmapCacheOnLoad, &pNewBitmap);
-	eck::g_pD2dFactory->CreateWicBitmapRenderTarget(pNewBitmap, &Prop, &pRT);
+	eck::g_pD2DFactory->CreateWicBitmapRenderTarget(pNewBitmap, &Prop, &pRT);
 	pRT->CreateBitmapFromWicBitmap(pBmp, &pD2dBitmap);
 
 	pRT->QueryInterface(&pDC);

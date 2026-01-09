@@ -83,6 +83,37 @@ void CPlayList::FlSchDoSearch(std::wstring_view svKeyWord)
 	}
 }
 
+void CPlayList::FlRmShuffle() noexcept
+{
+    m_vRandomMapping.ReSize(FlGetCount());
+	for (int i{}; auto& e : m_vRandomMapping)
+		e = i++;
+
+	eck::CPcg32 Pcg{};
+	const auto c = FlGetCount();
+    for (int i = c - 1; i > 0; --i)
+	{
+		const auto j = Pcg.Next(0, i);
+		if (i != j)
+            std::swap(m_vRandomMapping[i], m_vRandomMapping[j]);
+	}
+}
+
+void CPlayList::FlRmOnPlayItem(int idxFlat) noexcept
+{
+	if (m_idxCurrFlat < 0)
+		return;
+	const auto c = FlGetCount();
+	for (int i{}; i < c; ++i)
+	{
+		if (m_vRandomMapping[i] == idxFlat)
+		{
+            m_idxCurrRandom = i;
+			break;
+		}
+    }
+}
+
 int CPlayList::GrInsertGroup(const eck::CRefStrW& rsName, int idx)
 {
 	return 0;

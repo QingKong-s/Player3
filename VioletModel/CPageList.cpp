@@ -269,6 +269,8 @@ HRESULT CPageList::OnMenuAddFile(CPlayList* pList, int idxInsert)
             CoTaskMemFree(pszFile);
         }
     }
+    if (App->GetPlayer().GetList() == pList)
+        pList->FlRmShuffle();
     return S_OK;
 }
 

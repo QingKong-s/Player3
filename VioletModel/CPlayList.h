@@ -50,10 +50,12 @@ private:
     std::vector<GROUP> m_vGroup{};
 
     std::vector<int> m_vSearchResult{};	// 搜索结果，存储平面列表索引
+    eck::CTrivialBuffer<int> m_vRandomMapping{};
 
     int m_idxCurrFlat{ -1 };
     int m_idxCurrGroup{ -1 };
     int m_idxCurrGroupItem{ -1 };
+    int m_idxCurrRandom{ -1 };// m_vRandomMapping中的索引
 
     BITBOOL m_bGroup : 1{};
     BITBOOL m_bSort : 1{};
@@ -90,6 +92,10 @@ public:
     EckInlineNdCe int FlSchAt(int idx) noexcept { return m_vSearchResult[idx]; }
     EckInlineCe void FlSchCancel() noexcept { m_vSearchResult.clear(); }
     EckInlineNdCe int FlSchGetRealIndex(int idx) noexcept { return FlSchIsActive() ? FlSchAt(idx) : idx; }
+
+    void FlRmShuffle() noexcept;
+    void FlRmOnPlayItem(int idxFlat) noexcept;
+    EckInlineNdCe int FlRmAt(int idxRandom) const noexcept { return m_vRandomMapping[idxRandom]; }
 
     EckInlineNdCe auto& GrAtGroup(int idxGroup) noexcept { return m_vGroup[idxGroup]; }
     EckInlineNdCe auto& GrAt(int idxGroup, int idxItem) noexcept { return m_vFlat[m_vGroup[idxGroup].vItem[idxItem].idxFlat]; }
@@ -129,6 +135,9 @@ public:
         idxGroup = m_idxCurrGroup;
         return m_idxCurrGroupItem;
     }
+
+    EckInlineCe void PlySetCurrentRandomItem(int idxRandom) noexcept { m_idxCurrRandom = idxRandom; }
+    EckInlineNdCe int PlyGetCurrentRandomItem() const noexcept { return m_idxCurrRandom; }
 
     EckInlineCe void EnableGroup(BOOL b) noexcept { m_bGroup = b; }
     EckInlineNdCe BOOL IsGroupEnabled() const noexcept { return m_bGroup; }

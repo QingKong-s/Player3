@@ -136,6 +136,17 @@ BOOL CWndMain::OnCreate(HWND hWnd, CREATESTRUCT* pcs)
     m_BTAutoNext.Create(nullptr, Dui::DES_VISIBLE, 0,
         0, 0, CxyCircleButton, CxyCircleButton, nullptr, this);
     m_BTAutoNext.SetTransparentBk(TRUE);
+    m_BTAutoNext.GetSignal().Connect(
+        [](UINT uMsg, WPARAM wParam, LPARAM lParam, eck::SlotCtx& Ctx) -> LRESULT
+        {
+            if (uMsg == WM_RBUTTONDOWN)
+            {
+                const auto pList = App->GetPlayer().GetList();
+                if (pList)
+                    pList->FlRmShuffle();
+            }
+            return 0;
+        });
     // 按钮 歌词
     m_BTLrc.Create(nullptr, Dui::DES_VISIBLE, 0,
         0, 0, CxyCircleButton, CxyCircleButton, nullptr, this);

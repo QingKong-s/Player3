@@ -74,6 +74,8 @@ private:
 
 
 	PlayErr PlayWorker(CPlayList::ITEM& e);
+	PlayErr PlayIndex(int idx);
+	PlayErr PlayIndex(int idxGroup, int idxItem);
 
 	void OnPlayEvent(const PLAY_EVT_PARAM& e);
 
@@ -124,6 +126,7 @@ public:
 	}
 
 	AutoNextMode NextAutoNextMode();
+    EckInlineNdCe BOOL IsRandom() const noexcept { return m_eAutoNextMode == AutoNextMode::Radom; }
 
 	EckInlineNdCe auto& GetMusicInfo() const noexcept { return m_MusicInfo; }
 	EckInlineNdCe DWORD GetLastHrOrBassErr() const noexcept { return m_dwLastHrOrBassErr; }
