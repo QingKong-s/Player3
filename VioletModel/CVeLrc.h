@@ -68,6 +68,7 @@ private:
     int m_idxDelayBegin{ -1 };
     int m_idxDelayEnd{ -1 };
 
+    float m_yMinMaxDelayPos{};
     float m_msItemAnDelay{ 200.f };		// 当前行发生更改时歌词行之间开始动画的延迟
     float m_cyLinePadding{ 10.f };		// 项目间距
     eck::Align m_eAlignH{ eck::Align::Near };	// 水平对齐
@@ -121,6 +122,8 @@ private:
         return m_bItemAnDelay && m_idxDelayBegin >= 0 &&
             m_idxDelayEnd >= m_idxDelayBegin;
     }
+
+    BOOL ItmIsDelayEnd(const ITEM& e);
 public:
     LRESULT OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 

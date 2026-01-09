@@ -8,10 +8,10 @@ enum
     T_MOUSEIDLEMAX = 4500,
 };
 
-constexpr inline float AnDurLrcSelBkg{ 100.f };			// 歌词选中背景动画时长
-constexpr inline float AnDurLrcScrollExpand{ 200.f };	// 滚动展开动画时长
-constexpr inline float AnDurLrcDelay{ 600.f };			// 每个项目的延迟动画时长
-constexpr inline float DurMaxItemDelay{ 40.f };			// 延迟间隔
+constexpr inline float AnDurLrcSelBkg{ 100.f };         // 歌词选中背景动画时长
+constexpr inline float AnDurLrcScrollExpand{ 200.f };   // 滚动展开动画时长
+constexpr inline float AnDurLrcDelay{ 600.f };          // 每个项目的延迟动画时长
+constexpr inline float DurMaxItemDelay{ 310.f };        // 延迟间隔
 
 void CVeLrc::ScrAnProc(float fPos, float fPrevPos)
 {
@@ -221,6 +221,8 @@ void CVeLrc::ItmDelayPrepare(float dy)
         if (y - m_cyLinePadding <= 0.f)
         {
             m_idxDelayBegin = i;
+            if (m_bDelayScrollUp)
+                m_yMinMaxDelayPos = e.yAnDelaySrc;
             break;
         }
     }
@@ -237,6 +239,8 @@ void CVeLrc::ItmDelayPrepare(float dy)
         if (y >= GetHeightF())
         {
             m_idxDelayEnd = i;
+            if (!m_bDelayScrollUp)
+                m_yMinMaxDelayPos = e.yAnDelaySrc;
             break;
         }
     }
@@ -246,6 +250,15 @@ void CVeLrc::ItmDelayComplete()
 {
     m_idxDelayBegin = m_idxDelayEnd = -1;
     m_bItemAnDelay = FALSE;
+}
+
+BOOL CVeLrc::ItmIsDelayEnd(const ITEM& e)
+{
+    const auto cy = GetHeightF();
+    if (m_bDelayScrollUp)
+        return e.msDelay >= (DurMaxItemDelay * ((e.yAnDelaySrc - m_yMinMaxDelayPos) / cy));
+    else
+        return e.msDelay >= (DurMaxItemDelay * ((m_yMinMaxDelayPos - e.yAnDelaySrc) / cy));
 }
 
 LRESULT CVeLrc::OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -618,7 +631,7 @@ void CVeLrc::SetTextFormatTrans(IDWriteTextFormat* pTf)
 
 void CVeLrc::TlTick(int iMs)
 {
-    BOOL bAn{}, bDelay{};
+    BOOL bAn{};
     int i = (m_bDelayScrollUp ? 0 : (int)m_vItem.size() - 1);
     for (; i >= 0 && i < (int)m_vItem.size(); (m_bDelayScrollUp ? ++i : --i))
     {
@@ -637,8 +650,8 @@ void CVeLrc::TlTick(int iMs)
                 bAn = TRUE;
             ItmInvalidate(i);
         }
-        if (m_bItemAnDelay && !bDelay && ItmInDelayRange(i))
-            if (e.msDelay >= DurMaxItemDelay)
+        if (m_bItemAnDelay && ItmInDelayRange(i))
+            if (ItmIsDelayEnd(e))
             {
                 e.msAnDelay += iMs;
                 auto k = eck::Easing::OutExpo(
@@ -676,10 +689,7 @@ void CVeLrc::TlTick(int iMs)
                 InvalidateRect(rc);
             }
             else
-            {
                 e.msDelay += iMs;
-                bDelay = TRUE;
-            }
     }
     m_bAnSelBkg = bAn;
     if (m_bItemAnDelay)
