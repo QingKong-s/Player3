@@ -255,10 +255,11 @@ void CVeLrc::ItmDelayComplete()
 BOOL CVeLrc::ItmIsDelayEnd(const ITEM& e)
 {
     const auto cy = GetHeightF();
+    const auto msDelay = DurMaxItemDelay * ((m_idxDelayEnd - m_idxDelayBegin + 1) / 10.f);
     if (m_bDelayScrollUp)
-        return e.msDelay >= (DurMaxItemDelay * ((e.yAnDelaySrc - m_yMinMaxDelayPos) / cy));
+        return e.msDelay >= (msDelay * ((e.yAnDelaySrc - m_yMinMaxDelayPos) / cy));
     else
-        return e.msDelay >= (DurMaxItemDelay * ((m_yMinMaxDelayPos - e.yAnDelaySrc) / cy));
+        return e.msDelay >= (msDelay * ((m_yMinMaxDelayPos - e.yAnDelaySrc) / cy));
 }
 
 LRESULT CVeLrc::OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
